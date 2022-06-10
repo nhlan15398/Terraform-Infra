@@ -5,10 +5,7 @@ resource "aws_lb" "application-load-balancer" {
   }
   internal           = false
   load_balancer_type = "application"
-
-  security_groups = [aws_security_group.lb_sg.id]
-
-
+  security_groups = [aws_security_group.allow_http_ssh.id]
   subnets                          = [aws_subnet.public_subnet.id]
   enable_cross_zone_load_balancing = true
   enable_http2                     = true
@@ -16,9 +13,9 @@ resource "aws_lb" "application-load-balancer" {
   ip_address_type                  = "ipv4"
   enable_deletion_protection       = false
   drop_invalid_header_fields       = false
-
+  
   access_logs {
-    bucket  = [aws_s3_bucket.lb_logs.bucket]
+    bucket  = [aws_s3_bucket.s3_terraform.bucket]
     prefix  = "log-alb"
     enabled = true
 }
